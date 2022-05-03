@@ -6,4 +6,4 @@
 
 ### Modèle 
 
-![](docs/modele-settings.png)
+<img src="docs/modele-settings.png" alt="Settings Page" width="300px">
