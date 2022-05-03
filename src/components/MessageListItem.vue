@@ -1,51 +1,71 @@
 <template>
-  <ion-item v-if="message" :routerLink="'/message/' + message.id" :detail="false" class="list-item">
-    <div slot="start" :class="!message.read ? 'dot dot-unread' : 'dot'"></div>
+  <ion-item v-if="setting" :detail="false" class="list-item" lines="none">
+    <div
+      class="cs-icon-container"
+      slot="start"
+      :style="{ backgroundColor: setting.color }"
+    >
+      <ion-icon :icon="Icons[setting.icon]"></ion-icon>
+    </div>
     <ion-label class="ion-text-wrap">
       <h2>
-        {{ message.fromName }}
-        <span class="date">
-          <ion-note>{{ message.date }}</ion-note>
-          <ion-icon :icon="chevronForward" size="small" v-if="isIos()"></ion-icon>
-        </span>
+        {{ setting.title }}
       </h2>
-      <h3>{{ message.subject }}</h3>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        {{ setting.subtitle }}
       </p>
     </ion-label>
   </ion-item>
 </template>
 
 <script lang="ts">
-import { IonIcon, IonItem, IonLabel, IonNote } from '@ionic/vue';
-import { chevronForward } from 'ionicons/icons';
-import { defineComponent } from 'vue';
+import { IonIcon, IonItem, IonLabel, IonNote } from "@ionic/vue";
+import { defineComponent } from "vue";
+import * as Icons from "ionicons/icons";
 
 export default defineComponent({
-  name: 'MessageListItem',
+  name: "MessageListItem",
   components: {
     IonIcon,
     IonItem,
     IonLabel,
-    IonNote,
   },
   props: {
-    message: Object,
+    setting: Object,
   },
-  methods: {
-    isIos: () => {
-      const win = window as any;
-      return win && win.Ionic && win.Ionic.mode === 'ios';
-    }
+  computed: {
+    iconStyle(color = "grey") {
+      return `background-color: ${color}`;
+    },
+    icon() {
+      return require("ionicons/icons");
+    },
   },
   data() {
-    return { chevronForward }
-  }
+    return { Icons };
+  },
 });
 </script>
 
+<style>
+ion-icon {
+  color: white !important;
+  font-size: 25px;
+}
+</style>
 <style scoped>
+.cs-icon-container {
+  margin-left: 30px;
+  margin-right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .list-item {
   --padding-start: 0;
   --inner-padding-end: 0;
@@ -56,7 +76,7 @@ export default defineComponent({
   margin-bottom: 12px;
 }
 
-.list-item  h2 {
+.list-item h2 {
   font-weight: 600;
   margin: 0;
 }

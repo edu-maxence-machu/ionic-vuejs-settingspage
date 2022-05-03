@@ -1,48 +1,82 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
+    <ion-header :translucent="true" class="ion-no-border">
       <ion-toolbar>
-        <ion-title>Inbox</ion-title>
+        <ion-searchbar animated class="cs-search-bar">
+          <ion-avatar>
+            <img src="https://thispersondoesnotexist.com/image" />
+          </ion-avatar>
+        </ion-searchbar>
       </ion-toolbar>
     </ion-header>
-    
+
     <ion-content :fullscreen="true">
       <ion-refresher slot="fixed" @ionRefresh="refresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
-      
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Inbox</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      
+
       <ion-list>
-        <MessageListItem v-for="message in messages" :key="message.id" :message="message" />
+        <MessageListItem
+          v-for="setting in settings"
+          :key="setting.id"
+          :setting="setting"
+        />
       </ion-list>
     </ion-content>
   </ion-page>
 </template>
 
+<style>
+.cs-search-bar input {
+  border-radius: 10px !important;
+}
+.cs-search-bar ion-icon {
+  color: #1574e8 !important;
+}
+</style>
+
+<style scoped>
+ion-searchbar {
+  border-radius: 5px !important;
+  overflow: hidden;
+}
+ion-searchbar ion-avatar {
+  position: absolute;
+  right: 16px;
+  z-index: 10;
+  height: 70%;
+  width: auto;
+}
+</style>
+
 <script lang="ts">
-import { IonContent, IonHeader, IonList, IonPage, IonRefresher, IonRefresherContent, IonTitle, IonToolbar } from '@ionic/vue';
-import MessageListItem from '@/components/MessageListItem.vue';
-import { defineComponent } from 'vue';
-import { getMessages } from '@/data/messages';
+import {
+  IonContent,
+  IonHeader,
+  IonList,
+  IonPage,
+  IonRefresher,
+  IonRefresherContent,
+  IonAvatar,
+  IonToolbar,
+} from "@ionic/vue";
+import MessageListItem from "@/components/MessageListItem.vue";
+import { defineComponent } from "vue";
+import { getSettings } from "@/data/settings";
 
 export default defineComponent({
-  name: 'HomePage',
+  name: "HomePage",
   data() {
     return {
-      messages: getMessages()
-    }
+      settings: getSettings(),
+    };
   },
   methods: {
     refresh: (ev: CustomEvent) => {
       setTimeout(() => {
         ev.detail.complete();
       }, 3000);
-    }
+    },
   },
   components: {
     IonContent,
@@ -51,9 +85,9 @@ export default defineComponent({
     IonPage,
     IonRefresher,
     IonRefresherContent,
-    IonTitle,
     IonToolbar,
-    MessageListItem
+    MessageListItem,
+    IonAvatar,
   },
 });
 </script>
