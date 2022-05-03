@@ -1,0 +1,7 @@
+{
+  "name": "SettingsPage",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
